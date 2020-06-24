@@ -99,54 +99,42 @@ export const constantRoutes = [
         path: 'index',
         name: 'order-inquire',
         component: () => import('@/views/order-inquire/index'),
-        meta: { title: 'order', icon: 'form' }
+        meta: { title: '订单查询  ', icon: 'form' }
       }
     ]
   },
   {
-    path: '/form',
+    path: '/farminfo',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'farminfo',
+        component: () => import('@/views/farminfo/index.vue'),
+        meta: { title: '农场信息', icon: 'example' }
       }
     ]
   },
   {
-    path: '/test',
+    path: '/item-manage',
     component: Layout,
+    redirect: '/item-manage/item-list',
+    name: 'item-manage',
+    meta: {
+      title: '商品管理',
+      icon: 'nested'
+    },
     children: [
       {
-        path: 'index',
-        name: 'test',
-        component: () => import('@/views/test/index.vue'),
-        meta: { title: 'test', icon: 'example' }
-      }
-    ]
-  },
-  {
-    path:'/upshelf',
-    component:Layout,
-    children: [
+        path: 'item-list',
+        component: () => import('@/views/item-manage/item-list/index'), // Parent router-view
+        name: 'item-list',
+        meta: { title: '商品列表' },
+      },
       {
-        path: 'index',
-        name: 'upshelf',
-        component: () => import('@/views/upshelf/index.vue'),
-        meta: { title: 'upshelf', icon: 'example'}
-      }
-    ]
-  },
-  
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'item-upshelf',
+        component: () => import('@/views/item-manage/item-upshelf/index'),
+        meta: { title: '商品上架' }
       }
     ]
   },

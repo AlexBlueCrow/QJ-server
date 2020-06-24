@@ -82,7 +82,7 @@ export default {
         username: 'test',
         password: '123456'
       },
-      loginRules: {
+      loginRules:{
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
@@ -100,67 +100,47 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-   
-    handleLogin() {
-      console.log('login')
-      this.$refs.loginForm.validate(valid => {
+      handleLogin() {
+        this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log(this.loginForm.username,this.loginForm.password)
-          axios.get('http://localhost:8000/api/login/',{
-            params:{
-            username:this.loginForm.username,
-            password:this.loginForm.password,
-            }
-        }).then((response) => { 
-          console.log(response.data)
-          setToken(response.data.token)
-          let token=getToken()
-          axios.get('http://localhost:8000/api/getUserInfo/',{
-            params:{
-            token:token
-            }
-          }).then((response)=>{
-            
-            console.log(response.data)
-            
-            this.loading = true
-            this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-
-            this.$router.push('/')
-          })
+          this.loading = true
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+              console.log('---3')
+              this.$router.push({ path: this.redirect || '/' })
+              console.log('---4')
+              this.loading = false
+              console.log('---5')
+            }).catch(() => {
+              this.loading = false
+            })
+          }  else {
+            console.log('error submit!!')
+            return false
+          }
         })
-          
+      },
+    
+      showPwd() {
+        if (this.passwordType === 'password') {
+          this.passwordType = ''
         } else {
-          console.log('格式错误')
-          return false
+          this.passwordType = 'password'
         }
-      })
+          this.$nextTick(() => {
+          this.$refs.password.focus()
+        })
+      },
+   
+      goTo() {
+        console.log('redirect')
+        this.$router.push({name: 'register',params:{ id:'1'}});
+      },
+      goTocsv() {
+        this.$router.push({name: 'csv',params:{ id:'1'}});
+      },
     },
-    goTo() {
-    console.log('redirect')
-    this.$router.push({name: 'register',params:{ id:'1'}});
-    },
-    goTocsv() {
-    this.$router.push({name: 'csv',params:{ id:'1'}});
-  }
-  },
-  
 }
+    
 </script>
 
 <style lang="scss">

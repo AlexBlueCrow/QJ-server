@@ -14,7 +14,7 @@
       <el-button v-on:click='setdate("day")'>最近一天</el-button>
       <el-button v-on:click='setdate("week")'>最近一周</el-button>
     </el-button-group>
-    <el-input v-model='farmname' placeholder="农场名称" clearable></el-input>
+    <text>{{farmname}}</text>
     <el-button v-on:click='inquire' >查询</el-button>
     
     
@@ -56,22 +56,21 @@
 <script>
 
 import axios from "axios";
-
+import store from '@/store'
 var todate = new Date();
 export default {
   
   data(){
     return {
       pickerOptions: {},
-      date1:todate,
-      date2:todate,
-      farmname:'',
+      farmname:store.getters.farmname,
       show:false,
       orders:[],
       value:[todate,todate],
       
     }
   },
+ 
   methods:{
     inquire:function(){
         
@@ -79,6 +78,7 @@ export default {
             params:{
             date1:this.value[0],
             date2:this.value[1],
+            farm: this.farmname
             }
         }).then((response) => { 
           this.orders = response.data

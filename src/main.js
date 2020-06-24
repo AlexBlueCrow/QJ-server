@@ -15,8 +15,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import Vuex from 'vuex'
-
-
+import global from '@/api/global'
+Vue.prototype.GLOBAL = global
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

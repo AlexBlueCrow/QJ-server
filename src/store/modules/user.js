@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    farmname: ''
   }
 }
 
@@ -24,6 +25,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_FARMNAME: (state, farmname) => {
+    state.farmname = farmname
   }
 }
 
@@ -33,9 +37,12 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        console.log('suc')
+        const { data } = response //data doesnot wokr
+        commit('SET_TOKEN', response.token)
+        
+        setToken(response.token)
+        
         resolve()
       }).catch(error => {
         reject(error)
@@ -45,20 +52,23 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
+    console.log('store getinfo')  
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
+        console.log('====', response.data)
         const { data } = response
-
+        
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        const { name } = data.name
+        const { farmname } = data.farm
+        console.log(farmname, data.farm,name ,data.name)
+        commit('SET_NAME', data.name)
+        commit('SET_FARMNAME', data.farm)
         resolve(data)
       }).catch(error => {
+        console.log('catch error')
         reject(error)
       })
     })
