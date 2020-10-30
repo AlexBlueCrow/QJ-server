@@ -38,11 +38,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         console.log('suc')
-        const { data } = response //data doesnot wokr
+        const { data } = response // data doesnot wokr
         commit('SET_TOKEN', response.token)
-        
+
         setToken(response.token)
-        
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -52,18 +52,18 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
-    console.log('store getinfo')  
+    console.log('store getinfo')
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         console.log('====', response.data)
         const { data } = response
-        
+
         if (!data) {
           reject('Verification failed, please Login again.')
         }
         const { name } = data.name
         const { farmname } = data.farm
-        console.log(farmname, data.farm,name ,data.name)
+        console.log(farmname, data.farm, name, data.name)
         commit('SET_NAME', data.name)
         commit('SET_FARMNAME', data.farm)
         resolve(data)

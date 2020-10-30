@@ -1,43 +1,43 @@
 <template>
-    <div class="login-container">
-      <div class="title-container">
-        <h3 class="title">用户登陆</h3>
-      </div>
-      <el-form ref="form" :model="form" label-width="120px" @submit.prevent="onSubmit" class="login-form">
-            <el-form-item label="用户名" class='tips'>
-                <el-input v-model="form.username"/>
-            </el-form-item>
-            <el-form-item label="密码" >
-                <el-input v-model="form.password" :key="passwordType" :type="passwordType"/>
-            </el-form-item>
-            <el-form-item label="再次输入密码">
-              <el-input v-model="password_repeat" :key="passwordType" :type="passwordType"/>
-            </el-form-item>
-            <el-form-item label="农场/公司名称">
-                <el-input v-model="form.farmname"/>
-            </el-form-item>
-            <el-form-item label="用户姓名">
-              <el-input v-model="form.name"/>
-            </el-form-item>
-            <el-form-item label="手机号码">
-                <el-input v-model="form.phone_number"/>
-            </el-form-item>
-            <div id='test' class="inline_block">
-              <el-button type="primary" @click="onSubmit" style="width:50%;margin-bottom:50p;display:block;margin:0 auto">提交</el-button>
-              <el-button type="primary" @click="goTo" style="width:50%;margin-bottom:30px;right:0px;display:block;margin:0 auto">返回登录</el-button>
-            </div>
-            
-        </el-form>
-        
+  <div class="login-container">
+    <div class="title-container">
+      <h3 class="title">用户注册</h3>
     </div>
+    <el-form ref="form" :model="form" label-width="120px" class="login-form" @submit.prevent="onSubmit">
+      <el-form-item label="用户名" class="tips">
+        <el-input v-model="form.username" />
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input :key="passwordType" v-model="form.password" :type="passwordType" />
+      </el-form-item>
+      <el-form-item label="再次输入密码">
+        <el-input :key="passwordType" v-model="password_repeat" :type="passwordType" />
+      </el-form-item>
+      <el-form-item label="农场/公司名称">
+        <el-input v-model="form.farmname" />
+      </el-form-item>
+      <el-form-item label="用户姓名">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="手机号码">
+        <el-input v-model="form.phone_number" />
+      </el-form-item>
+      <div id="test" class="inline_block">
+        <el-button type="primary" style="width:50%;margin-bottom:50p;display:block;margin:0 auto" @click="onSubmit">提交</el-button>
+        <el-button type="primary" style="width:50%;margin-bottom:30px;right:0px;display:block;margin:0 auto" @click="goTo">返回登录</el-button>
+      </div>
+
+    </el-form>
+
+  </div>
 </template>
 <script>
 
 import { validUsername } from '@/utils/validate'
-import axios from "axios";
+import axios from 'axios'
 
 export default {
-  name: 'register',
+  name: 'Register',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -57,11 +57,11 @@ export default {
       form: {
         username: '',
         password: '123456',
-        phone_number:'',
-        farmname:'',
-        name:'',
+        phone_number: '',
+        farmname: '',
+        name: ''
       },
-      password_repeat:'123456',
+      password_repeat: '123456',
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
@@ -91,55 +91,50 @@ export default {
       })
     },
     onSubmit() {
-      const cloud='https://qingjiao.shop:8000'
-      const local='http://127.0.0.1:8000/'
-      var serverurl=local
-      if (this.isValidate(this.form)){
-        console.log('validated',this.form)
-        let formData = new FormData();
-        for (var key in this.form){
-            formData.append(key,this.form[key])
+      const cloud = 'https://qingjiao.shop:8000'
+      const local = 'http://127.0.0.1:8000/'
+      var serverurl = cloud
+      if (this.isValidate(this.form)) {
+        console.log('validated', this.form)
+        const formData = new FormData()
+        for (var key in this.form) {
+          formData.append(key, this.form[key])
         }
         console.log(formData)
-        axios.post(serverurl+'/api/register/', formData, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-                    .then(function (response) {
-                        alert(JSON.stringify(response.data))
-                        if(JSON.stringify(response.data)=='注册成功'){
-                          
-                        this.$router.push({name: 'login',params:{ id:'1'}});
-                        }
-                        else{
-                          
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })   
-            } 
-      },
-      isValidate(form){
+        axios.post(serverurl + '/api/register/', formData, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }})
+          .then(function(response) {
+            alert(JSON.stringify(response.data))
+            if (JSON.stringify(response.data) == '注册成功') {
+              this.goTo()
+            } else {
 
-      if(form.username){
-        if(form.password.length>=6){
-          if (form.password==this.password_repeat){
+            }
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      }
+    },
+    isValidate(form) {
+      if (form.username) {
+        if (form.password.length >= 6) {
+          if (form.password == this.password_repeat) {
             return true
-          }else{
+          } else {
             alert('两次密码不一致')
             return false
           }
-          
         }
       }
       console.log('invalid')
       return false
     },
-    goTo(){
-      this.$router.push({name:'login'})
+    goTo() {
+      this.$router.push({ name: 'login' })
     }
-      
-    },
-    
   }
+
+}
 </script>
 
 <style lang="scss">
@@ -252,7 +247,6 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
-  
+
 }
 </style>
- 

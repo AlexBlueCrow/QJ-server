@@ -1,9 +1,12 @@
 import request from '@/utils/request'
 
+const local = 'http://localhost:8000'
+const cloud = 'https://qingjiao.shop:8000'
+const server = cloud
 export function login(data) {
-  console.log('longinapi',data)
+  console.log('longinapi', data)
   return request({
-    url: 'http://localhost:8000/api/login/',
+    url: server + '/api/login/',
     method: 'post',
     data
   })
@@ -12,7 +15,7 @@ export function login(data) {
 export function getInfo(token) {
   console.log('getinfo', token)
   return request({
-    url: 'http://localhost:8000/api/getUserInfo/',
+    url: server + '/api/getUserInfo/',
     method: 'get',
     params: { token }
   })

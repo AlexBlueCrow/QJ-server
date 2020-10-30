@@ -63,33 +63,23 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: '青椒农业',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '主页', icon: 'dashboard' }
     }]
   },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/test',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'test',
+  //       component: () => import('@/views/test/index'),
+  //       meta: { title: 'test  ', icon: 'test' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/order-inquire',
@@ -106,13 +96,21 @@ export const constantRoutes = [
   {
     path: '/farminfo',
     component: Layout,
+    meta: { title: '农场信息', icon: 'example' },
     children: [
       {
-        path: 'index',
-        name: 'farminfo',
-        component: () => import('@/views/farminfo/index.vue'),
-        meta: { title: '农场信息', icon: 'example' }
+        path: 'update',
+        name: 'farm_update',
+        component: () => import('@/views/farminfo/update/update.vue'),
+        meta: { title: '信息更新', icon: 'example' }
+      },
+      {
+        path: 'locate',
+        name: 'farm_locate',
+        component: () => import('@/views/farminfo/locate/index.vue'),
+        meta: { title: '农场定位', icon: 'example' }
       }
+
     ]
   },
   {
@@ -129,12 +127,47 @@ export const constantRoutes = [
         path: 'item-list',
         component: () => import('@/views/item-manage/item-list/index'), // Parent router-view
         name: 'item-list',
-        meta: { title: '商品列表' },
+        meta: { title: '商品列表' }
       },
       {
         path: 'item-upshelf',
         component: () => import('@/views/item-manage/item-upshelf/index'),
         meta: { title: '商品上架' }
+      },
+      {
+        path: 'item-detail',
+        name: 'item-detail',
+        component: () => import('@/views/item-manage/item-detail/index'),
+        meta: { title: '商品详情' }
+      }
+    ]
+  },
+  {
+    path: '/video-manage',
+    component: Layout,
+    redirect: '/video-manage/video-list',
+    name: 'video-manage',
+    meta: {
+      title: '视频管理',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'video-list',
+        component: () => import('@/views/video-manage/video-list/index'), // Parent router-view
+        name: 'video-list',
+        meta: { title: '视频列表' }
+      },
+      {
+        path: 'video-upload',
+        component: () => import('@/views/video-manage/video-upload/index'),
+        meta: { title: '视频上传' }
+      },
+      {
+        path: 'video-item-map',
+        name: 'video-item-map',
+        component: () => import('@/views/video-manage/video-item-map/index'),
+        meta: { title: '关联管理' }
       }
     ]
   },

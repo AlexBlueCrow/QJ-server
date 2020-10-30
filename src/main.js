@@ -12,11 +12,47 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import VueAMap from 'vue-amap'
+import Vuex from 'vuex'
+
 import '@/icons' // icon
 import '@/permission' // permission control
-import Vuex from 'vuex'
-import global from '@/api/global'
+
+/**
+ * If you don't want to use mock-server
+ * you want to use MockJs for mock api
+ * you can execute: mockXHR()
+ *
+ * Currently MockJs will be used in the production environment,
+ * please remove it before going online ! ! !
+ */
+// if (process.env.NODE_ENV === 'production') {
+//   const { mockXHR } = require('../mock')
+//   mockXHR()
+// }
+
+// set ElementUI lang to EN
+// Vue.use(ElementUI, { locale })
+// 如果想要中文版 element-ui，按如下方式声明
+Vue.use(ElementUI)
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+  key: '7f3411cd66f38bbda5344af1ebb042c6',
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
+  uiVersion: '1.0',
+  v: '1.4.4'
+});
+
+Vue.config.productionTip = false
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
+
 Vue.prototype.GLOBAL = global
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -29,18 +65,3 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
-
-// set ElementUI lang to EN
-Vue.use(ElementUI, { locale });
-Vue.use( Vuex );
-// 如果想要中文版 element-ui，按如下方式声明
-// Vue.use(ElementUI)
-
-Vue.config.productionTip = false
-
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})

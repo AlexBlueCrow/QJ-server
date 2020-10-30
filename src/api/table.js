@@ -11,7 +11,7 @@ export function getList(params) {
 export function orderinquire(params) {
   return request({
     url: 'http://localhost:8000/api/test/',
-    method:'get',
+    method: 'get',
     params
   })
 }

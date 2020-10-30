@@ -1,6 +1,7 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">欢迎来到青椒农场</div>
+  <div class="dashboard-container" style="display:block;text-align:center;">
+    <div class="dashboard-text">欢迎来到青椒农业</div>
+    <img class="pic-404__parent" src="@/assets/img/favicon.png" style="height:600px;width:600px" >
   </div>
 </template>
 

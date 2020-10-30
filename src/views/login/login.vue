@@ -41,30 +41,28 @@
         </span>
       </el-form-item>
       <div>
-      <el-button :loading="loading" type="primary" style="width:60%;margin-bottom:30px;margin:0 auto;display:block" @click.native.prevent="handleLogin">登录</el-button>
+        <el-button :loading="loading" type="primary" style="width:60%;margin-bottom:30px;margin:0 auto;display:block" @click.native.prevent="handleLogin">登录</el-button>
       </div>
 
-      <div class='test'>
-      <el-button type="primary" @click="goTo" style="position:relative;top:10%;width:60%;margin-bottom:30px;display:block;margin:0 auto">新用户注册</el-button>
+      <div class="test">
+        <el-button type="primary" style="position:relative;top:10%;width:60%;margin-bottom:30px;display:block;margin:0 auto" @click="goToRe">新用户注册</el-button>
       </div>
     </el-form>
-      
-      
   </div>
 </template>
 
 <script>
 
-import { validUsername } from '@/utils/validate';
-import axios from "axios";
-import { setToken } from '../../utils/auth';
-import { getToken } from '../../utils/auth';
+import { validUsername } from '@/utils/validate'
+import axios from 'axios'
+import { setToken } from '../../utils/auth'
+import { getToken } from '../../utils/auth'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (value.length==0) {
+      if (value.length == 0) {
         callback(new Error('Please enter the correct user name'))
       } else {
         callback()
@@ -79,10 +77,10 @@ export default {
     }
     return {
       loginForm: {
-        username: 'test',
-        password: '123456'
+        username: '',
+        password: ''
       },
-      loginRules:{
+      loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
@@ -100,47 +98,43 @@ export default {
     }
   },
   methods: {
-      handleLogin() {
-        this.$refs.loginForm.validate(valid => {
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-              console.log('---3')
-              this.$router.push({ path: this.redirect || '/' })
-              console.log('---4')
-              this.loading = false
-              console.log('---5')
-            }).catch(() => {
-              this.loading = false
-            })
-          }  else {
-            console.log('error submit!!')
-            return false
-          }
-        })
-      },
-    
-      showPwd() {
-        if (this.passwordType === 'password') {
-          this.passwordType = ''
+            this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
-          this.passwordType = 'password'
+          console.log('格式错误')
+          return false
         }
-          this.$nextTick(() => {
-          this.$refs.password.focus()
-        })
-      },
-   
-      goTo() {
-        console.log('redirect')
-        this.$router.push({name: 'register',params:{ id:'1'}});
-      },
-      goTocsv() {
-        this.$router.push({name: 'csv',params:{ id:'1'}});
-      },
+      })
     },
+
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
+    },
+
+    goToRe() {
+      this.$router.push({ name: 'register', params: { id: '1' }})
+    },
+    goTocsv() {
+      this.$router.push({ name: 'csv', params: { id: '1' }})
+    }
+  }
 }
-    
+
 </script>
 
 <style lang="scss">
